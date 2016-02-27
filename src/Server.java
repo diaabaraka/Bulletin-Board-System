@@ -20,15 +20,17 @@ public class Server {
 			String readerName = "reader";
 			String writerName = "writer";
 
-			NewsReader reader = new Reader(news, readerName);
-			NewsReader readerStub = (NewsReader) UnicastRemoteObject.exportObject(reader, 0);
-
+			NewsReader reader = new Reader(news, readersFile);
+			Naming.rebind("rmi://localhost/reader", reader);
+//			NewsReader readerStub = (NewsReader) UnicastRemoteObject.exportObject(reader, 0);
+//
 			NewsWriter writer = new Writer(news, writersFile);
-			NewsWriter writerStub = (NewsWriter) UnicastRemoteObject.exportObject(writer, 0);
-
-			Registry registry = LocateRegistry.getRegistry();
-			registry.rebind(readerName, readerStub);
-			registry.rebind(writerName, writerStub);
+			Naming.rebind("rmi://localhost/writer", writer);
+//			NewsWriter writerStub = (NewsWriter) UnicastRemoteObject.exportObject(writer, 0);
+////
+//			Registry registry = LocateRegistry.getRegistry();
+//			registry.rebind(readerName, readerStub);
+//			registry.rebind(writerName, writerStub);
 
 			System.out.println("Bulletin Board Server is ready....");
 
