@@ -11,7 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class Server {
 
 	public static void main(String[] args) throws MalformedURLException {
-		BulletinBoardNews news = new BulletinBoardNews();
+		BulletinBoard news = new BulletinBoard();
 
 		try {
 			String readersFile = "readers.txt";

@@ -6,29 +6,25 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Reader extends UnicastRemoteObject implements NewsReader {
 
-	private BulletinBoardNews news;
+	private BulletinBoard news;
 	private String fileName;
-	
 
-	public Reader(BulletinBoardNews n, String file)
+	public Reader(BulletinBoard n, String file)
 			throws RemoteException, FileNotFoundException, UnsupportedEncodingException {
 		super();
 		this.news = n;
 		this.fileName = file;
-		
+
 		writeToFile("sSeq\toVal\trID\trNum\n");
-		
-		
-		
+
 	}
-	
-	
 
 	@Override
 	public String read(String ID) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	private void writeToFile(String data) throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 		writer.write(data);

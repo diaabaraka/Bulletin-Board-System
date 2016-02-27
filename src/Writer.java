@@ -6,11 +6,11 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class Writer extends UnicastRemoteObject implements  NewsWriter {
 
-	private BulletinBoardNews news;
+	private BulletinBoard news;
 	private String fileName;
 	
 
-	public Writer(BulletinBoardNews n, String file)
+	public Writer(BulletinBoard n, String file)
 			throws RemoteException, FileNotFoundException, UnsupportedEncodingException {
 		super();
 		this.news = n;

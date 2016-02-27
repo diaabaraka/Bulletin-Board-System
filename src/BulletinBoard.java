@@ -1,9 +1,9 @@
 
-public class BulletinBoardNews {
+public class BulletinBoard {
 	private int objectVal;
 	private int seqNum;
 	private int readersCount;
-	public BulletinBoardNews() {
+	public BulletinBoard() {
 		this.objectVal = -1;
 		this.seqNum = 0;
 		this.readersCount = 0;
