@@ -11,7 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class Server {
 
 	public static void main(String[] args) throws MalformedURLException {
-		BulletinBoard news = new BulletinBoard();
+		BulletinBoard board = new BulletinBoard();
 
 		try {
 			String readersFile = "readers.txt";
@@ -20,11 +20,11 @@ public class Server {
 			String readerName = "reader";
 			String writerName = "writer";
 
-			NewsReader reader = new Reader(news, readersFile);
+			NewsReader reader = new Reader(board, readersFile);
 			Naming.rebind("rmi://localhost/reader", reader);
 //			NewsReader readerStub = (NewsReader) UnicastRemoteObject.exportObject(reader, 0);
 //
-			NewsWriter writer = new Writer(news, writersFile);
+			NewsWriter writer = new Writer(board, writersFile);
 			Naming.rebind("rmi://localhost/writer", writer);
 //			NewsWriter writerStub = (NewsWriter) UnicastRemoteObject.exportObject(writer, 0);
 ////
