@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class Server {
 
 	public static void main(String[] args) throws MalformedURLException {
+		System.setSecurityManager(new RMISecurityManager());
 		BulletinBoard board = new BulletinBoard();
 
 		try {

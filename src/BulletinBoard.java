@@ -11,41 +11,47 @@ public class BulletinBoard {
 		this.objectVal = -1;
 		this.reqNum = 0;
 		this.readersCount = 0;
+		
 	}
 
 	public int incObjectVal() {
-		int val = this.objectVal + 1;
-		return val;
+		
+		this.objectVal++;
+		return this.objectVal;
 	}
 
 	public int incReqNum() {
-		int val = this.reqNum + 1;
-		return val;
+		this.reqNum++;
+		return reqNum;
 	}
 	public int incSerNum() {
-		int val = this.serNum + 1;
-		return val;
+		this.serNum++;
+		return serNum;
 	}
 
 	public int incReadersCount() {
-		int val = this.readersCount + 1;
-		return val;
+		this.readersCount++;
+		return readersCount;
 	}
 	public int incWritersCount() {
-		int val = this.writersCount + 1;
-		return val;
+		this.writersCount++;
+		return writersCount;
 	}
+	
 	public int decReadersCount() {
-		int val = this.readersCount - 1;
-		return val;
+		this.readersCount--;
+		return readersCount;
 	}
 	public void setObjectVal(int objectVal) {
 		this.objectVal = objectVal;
 	}
+	public void updateReadersCount(int val) {
+		this.readersCount = readersCount + val;
+	}
 
 	public int decWritersCount() {
-		int val = this.writersCount - 1;
-		return val;
+		this.writersCount --;
+		return writersCount;
 	}
 
 	public int getObjectVal() {

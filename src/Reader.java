@@ -1,4 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
@@ -16,42 +19,68 @@ public class Reader extends UnicastRemoteObject implements NewsReader {
 		this.board = n;
 		this.fileName = file;
 
-		writeToFile("sSeq\toVal\trID\trNum\n");
+		writeToFile("sSeq\toVal\trID\trNum", false);
 
 	}
 
 	@Override
 	public String read(int ID) throws RemoteException {
-		int rSeq = board.incReqNum();
+		
+		int rSeq = 0;
+		int rNum = 0;
+		int sSeq = 0;
+		synchronized (this) {
+			rSeq = board.incReqNum();
+			
+		}
+		rNum = updateReaders(1);
+		String result = "";
+
+		try {
+			sleep();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
 		int oVal = board.getObjectVal();
-		int rNum = board.incReadersCount();
+
+		synchronized (this) {
+			sSeq = board.incSerNum();
+		}
+		updateReaders(-1);
+
+		String serverData = sSeq + "\t" + oVal + "\t" + ID + "\t" + rNum;
+		result = rSeq + "\t" + sSeq + "\t" + oVal;
+
+		synchronized (this) {
+			writeToFile(serverData, true);
+		}
+
+		return result;
+	}
+	private synchronized int updateReaders(int val ) {
+		board.updateReadersCount(val);
+		return board.getReadersCount();
+	}
+
+	private void writeToFile(String data, boolean toAppend) {
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, toAppend)));
+			out.println(data);
+			out.close();
+		} catch (IOException e) {
+			// exception handling left as an exercise for the reader
+		}
+	}
+
+	private void sleep() throws InterruptedException {
 		Random r = new Random();
 		int Low = 0;
 		int High = 10000;
-		int sec = r.nextInt(High-Low) + Low;
-		String result = "";
-		
-		try {
-			Thread.sleep(sec);
-			int sSeq = board.incSerNum();
-			board.decReadersCount();
-			
-			
-			String serverData = sSeq + "\t" + oVal + "\t"+ ID +rNum;
-			result = rSeq + "\t" + sSeq + "\t" +oVal;
-			writeToFile(serverData);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
+		int secToSleep = r.nextInt(High - Low) + Low;
 
-	private void writeToFile(String data) throws FileNotFoundException, UnsupportedEncodingException {
-		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
-		writer.write(data);
-		writer.close();
+		Thread.sleep(secToSleep);
+
 	}
 
 }
